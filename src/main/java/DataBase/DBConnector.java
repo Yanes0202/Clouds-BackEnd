@@ -8,7 +8,7 @@ public class DBConnector {
 
     private static String URL = "jdbc:postgresql://localhost/Fb";
     private static String USER = "postgres";
-    private static String PASSWORD = "dwarf0202";
+    private static String PASSWORD = "12345";
 
 
 
