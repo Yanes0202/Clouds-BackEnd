@@ -75,7 +75,11 @@ input#submit{
     margin: 10px;
     cursor: pointer;
 }
-
+p#badLogin{
+    display: none;
+    font-size: 30px;
+    color: red;
+}
 
 
 
@@ -107,7 +111,8 @@ input#submit{
             <input dir="ltr" class="input" id="password" name="password" type="password" ></br>
             <input id="submit" type="submit" value="Zaloguj się!!!"></br>
         </form>
-        <a style="font-size: 15px; color:red;text-decoration: underline;" onclick="showRegister()">Nie posiadam konta</a>
+        <p id="badLogin">Niepoprawne dane logowani!</p>
+        <a style="font-size: 25px; color:purple;text-decoration: underline;" onclick="showRegister()">Nie posiadam konta</a>
 
     </div>
 
@@ -124,7 +129,7 @@ input#submit{
             <input dir="ltr" class="input" id="regpassword" name="regpassword" type="password" ></br>
             <input id="submit" type="submit" value="Utwórz konto!!!">
         </form>
-        <a style="font-size: 15px; color:red;text-decoration: underline;" onclick="showLogin()">Mam już konto</a>
+        <a style="font-size: 25px; color:purple;text-decoration: underline;" onclick="showLogin()">Mam już konto</a>
     </div>
 
 
@@ -150,9 +155,14 @@ form.onsubmit = function(event){
         //send the form data
         xhr.send(JSON.stringify(Object.fromEntries(formData)));
 
+
         xhr.onreadystatechange = function() {
             if (xhr.readyState == XMLHttpRequest.DONE) {
-                form.reset(); //reset form after AJAX success or do something else
+                if(xhr.responseText=="Success"){
+                    window.location.href = 'http://localhost:8080/';
+                }else{
+                    document.getElementById("badLogin").style.display='block';
+                }
             }
         }
         //Fail the onsubmit to avoid page refresh.

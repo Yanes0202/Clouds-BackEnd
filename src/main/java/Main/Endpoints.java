@@ -17,12 +17,7 @@ import java.sql.SQLException;
 public class Endpoints {
 
 
-String jsonSuccess = "{\n" +
-        "\"message\":\"success\"\n" +
-        "}";
-String jsonFail = "{\n" +
-            "\"message\":\"fail\"\n" +
-            "}";
+
 
     @GetMapping("/login")
     public String login(){
@@ -75,9 +70,9 @@ String jsonFail = "{\n" +
         //user1.setName(user.getName());
         //user1.setLastName(user.getLastName());
         if(UserChecker.checkUser(user1.getLogin(),user1.getPassword())){
-            return new ResponseEntity(jsonSuccess, HttpStatus.OK);
+            return new ResponseEntity("Success", HttpStatus.OK);
         }else {
-            return new ResponseEntity(jsonFail,HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Fail",HttpStatus.NOT_FOUND);
         }
 
     }
