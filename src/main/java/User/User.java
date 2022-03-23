@@ -3,8 +3,8 @@ package User;
 public class User {
     private String login;
     private String password;
-    //private String name;
-    //private String lastName;
+    private String name;
+    private String lastName;
 
     public String getLogin() {
         return login;
@@ -22,7 +22,7 @@ public class User {
         this.password = password;
     }
 
-    /*public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -36,7 +36,7 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }*/
+    }
 
 
 }

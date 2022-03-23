@@ -37,10 +37,10 @@ div#mainContent{
 }
 
 
-div#loginForm{
+div#loginDiv{
     display: block;
 }
-div#registerForm{
+div#registerDiv{
     display: none;
 }
 div#right{
@@ -80,7 +80,11 @@ p#badLogin{
     font-size: 30px;
     color: red;
 }
-
+p#badRegister{
+    display: none;
+    font-size: 30px;
+    color: red;
+}
 
 
 
@@ -102,8 +106,8 @@ p#badLogin{
 </div>
 <div id="mainContent">
 
-    <div id="loginForm">
-        <form id="myForm">
+    <div id="loginDiv">
+        <form id="loginForm">
             </br>Wprowadź dane logowania</br></br>
             Login:</br>
             <input dir="ltr" class="input" id="login" name="login" type="text"></br>
@@ -111,24 +115,25 @@ p#badLogin{
             <input dir="ltr" class="input" id="password" name="password" type="password" ></br>
             <input id="submit" type="submit" value="Zaloguj się!!!"></br>
         </form>
-        <p id="badLogin">Niepoprawne dane logowani!</p>
+        <p id="badLogin">Niepoprawne dane logowania!</p>
         <a style="font-size: 25px; color:purple;text-decoration: underline;" onclick="showRegister()">Nie posiadam konta</a>
 
     </div>
 
-    <div id="registerForm">
-        <form>
+    <div id="registerDiv">
+        <form id="registerForm">
             </br>Wprowadź dane osobowe</br></br>
             Imie:</br>
             <input dir="ltr" class="input" id="name" name="name" type="text"></br>
             Nazwisko:</br>
             <input dir="ltr" class="input" id="lastName" name="lastName" type="text"></br>
             Login:</br>
-            <input dir="ltr" class="input" id="reglogin" name="reglogin" type="text"></br>
+            <input dir="ltr" class="input" id="login" name="login" type="text"></br>
             Hasło:</br>
-            <input dir="ltr" class="input" id="regpassword" name="regpassword" type="password" ></br>
+            <input dir="ltr" class="input" id="password" name="password" type="password" ></br>
             <input id="submit" type="submit" value="Utwórz konto!!!">
         </form>
+        <p id="badRegister">Coś poszło nie tak</p></br>
         <a style="font-size: 25px; color:purple;text-decoration: underline;" onclick="showLogin()">Mam już konto</a>
     </div>
 
@@ -144,40 +149,76 @@ p#badLogin{
 
 <script type="text/javascript">
 
-         var form = document.getElementById('myForm');
-form.onsubmit = function(event){
-        var xhr = new XMLHttpRequest();
-        var formData = new FormData(form);
-        //open the request
-        xhr.open('POST','http://localhost:8080/api/login')
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        //send the form data
-        xhr.send(JSON.stringify(Object.fromEntries(formData)));
-
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
-                if(xhr.responseText=="Success"){
-                    window.location.href = 'http://localhost:8080/';
-                }else{
-                    document.getElementById("badLogin").style.display='block';
-                }
-            }
-        }
-        //Fail the onsubmit to avoid page refresh.
-        return false;
-    }
-
-    //Znikanie pola
+//Znikanie pola
 function showRegister(){
-    document.getElementById("loginForm").style.display="none";
-    document.getElementById("registerForm").style.display="inline";
+    document.getElementById("loginDiv").style.display="none";
+    document.getElementById("registerDiv").style.display="inline";
 }
 function showLogin(){
-    document.getElementById("registerForm").style.display="none";
-    document.getElementById("loginForm").style.display="inline";
+    document.getElementById("registerDiv").style.display="none";
+    document.getElementById("loginDiv").style.display="inline";
 }
+
+
+//LOGOWANIE!!!
+    var logform = document.getElementById('loginForm');
+    logform.onsubmit = function(event){
+
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData(logform);
+
+    //open the request
+    xhr.open('POST','http://localhost:8080/api/login')
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    //send the form data
+    xhr.send(JSON.stringify(Object.fromEntries(formData)));
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            if(xhr.responseText=="Success"){
+
+                window.location.href = 'http://localhost:8080/';
+            }else if(xhr.responseText="Fail"){
+                document.getElementById("badLogin").style.display="block";
+            }
+        }
+    }
+
+    //Fail the onsubmit to avoid page refresh.
+    return false;
+}
+
+
+//REJESTRACJA!!!
+    var regform = document.getElementById('registerForm');
+    regform.onsubmit = function(event){
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData(regform);
+
+    //open the request
+    xhr.open('POST','http://localhost:8080/api/register')
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    //send the form data
+    xhr.send(JSON.stringify(Object.fromEntries(formData)));
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            if(xhr.responseText=="Success"){
+                window.location.href = 'http://localhost:8080/login';
+            }else{
+                document.getElementById("badRegisterx").style.display="block";
+            }
+        }
+    }
+
+    //Fail the onsubmit to avoid page refresh.
+    return false;
+    }
+
+
+
 
 </script>
 

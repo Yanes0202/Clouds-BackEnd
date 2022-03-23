@@ -64,17 +64,32 @@ public class Endpoints {
                 MediaType.APPLICATION_JSON_VALUE
             })
     public ResponseEntity<User> logowanie(@RequestBody User user){
-        User user1 = new User();
-        user1.setLogin(user.getLogin());
-        user1.setPassword(user.getPassword());
-        //user1.setName(user.getName());
-        //user1.setLastName(user.getLastName());
-        if(UserChecker.checkUser(user1.getLogin(),user1.getPassword())){
+        if(UserChecker.checkUser(user.getLogin(),user.getPassword())){
             return new ResponseEntity("Success", HttpStatus.OK);
         }else {
             return new ResponseEntity("Fail",HttpStatus.NOT_FOUND);
         }
 
+    }
+
+
+    @PostMapping(path = "/api/register",consumes = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+    },
+            produces = {
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            })
+    public ResponseEntity<User> register(@RequestBody User user){
+        QuerryExecutor.executeQuerry("INSERT INTO \"loginData\"(\"login\",\"password\",\"userName\",\"userLastName\") VALUES ('"+user.getLogin()+"','"+user.getPassword()+"','"+user.getName()+"','"+user.getLastName()+"')");
+        return new ResponseEntity("Success",HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/api/drop")
+    public ResponseEntity drop(){
+        QuerryExecutor.executeQuerry("DELETE FROM \"loginData\"");
+        return new ResponseEntity ("Success",HttpStatus.OK);
     }
     /*
         List<String > repo = new ArrayList<>();
