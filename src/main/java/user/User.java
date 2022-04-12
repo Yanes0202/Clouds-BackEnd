@@ -6,6 +6,13 @@ public class User {
     private String userName;
     private String userLastName;
 
+    public User(String login,String password,String userName,String userLastName){
+        this.login=login;
+        this.password=password;
+        this.userName=userName;
+        this.userLastName=userLastName;
+    }
+
     public String getLogin() {
         return login;
     }

@@ -51,15 +51,11 @@ public class Endpoints {
     @GetMapping(path = "/api/post/get")
     public ResponseEntity postGet(){
         List<Post> postList = new ArrayList<>();
-        Post post = new Post();
         ResultSet result = QueryExecutor.executeSelect("SELECT * from \"postsData\"");
         try {
             while(result.next()){
-                post.setId(Integer.parseInt(result.getString(1)));
-                post.setTitle(result.getString(2));
-                post.setImage(result.getString(3));
-                post.setDescription(result.getString(4));
-                postList.add(post);
+                postList.add(new Post(Integer.parseInt(result.getString(1)), result.getString(2), result.getString(3), result.getString(4)));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,15 +107,10 @@ public class Endpoints {
     public ResponseEntity getAll(){
 
         List<User> userList = new ArrayList<>();
-        User user = new User();
         ResultSet result = QueryExecutor.executeSelect("SELECT * from \"loginData\"");
         try {
             while(result.next()){
-                 user.setLogin(result.getString(2));
-                 user.setPassword(result.getString(3));
-                 user.setUserName(result.getString(4));
-                 user.setUserLastName(result.getString(5));
-                 userList.add(user);
+                userList.add(new User(result.getString(2),result.getString(3),result.getString(4),result.getString(5)));
             }
         } catch (SQLException e) {
             e.printStackTrace();

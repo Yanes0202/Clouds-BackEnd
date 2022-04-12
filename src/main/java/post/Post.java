@@ -6,6 +6,13 @@ public class Post {
     private String description;
     private int id;
 
+    public Post(int id, String title, String image, String description){
+        this.id =id;
+        this.title=title;
+        this.image=image;
+        this.description=description;
+    }
+
     public int getId(){
         return id;
     }
