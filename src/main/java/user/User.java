@@ -1,10 +1,10 @@
-package User;
+package user;
 
 public class User {
     private String login;
     private String password;
-    private String name;
-    private String lastName;
+    private String userName;
+    private String userLastName;
 
     public String getLogin() {
         return login;
@@ -22,20 +22,20 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getUserLastName() {
+        return userLastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
     }
 
 

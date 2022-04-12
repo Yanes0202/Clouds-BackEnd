@@ -1,4 +1,4 @@
-package DataBase;
+package dataBase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnector {
 
-    private static String URL = "jdbc:postgresql://localhost/Fb";
-    private static String USER = "postgres";
-    private static String PASSWORD = "12345";
+    protected static String URL = "jdbc:postgresql://localhost/Fb";
+    protected static String USER = "postgres";
+    protected static String PASSWORD = "12345";
 
 
 
