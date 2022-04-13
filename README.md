@@ -4,6 +4,8 @@ I. Done
 Front-end:
 - strona logowania/rejestrowania konta
 - główna strona z postami
+- formularz tworzący posty
+- guzik wylogowywujący
 
 Back-end:
 - łączenie się z bazą
@@ -13,18 +15,20 @@ Back-end:
 
 II. To Do
 Front-end:
-- formularz tworzący posty
 - prawy panel ze znajomymi
 - "messenger"
 - panel użytkownika
 - dodanie ikonki
+- przyjęcie danych użytkownika z backendu
 
 Back-end:
 - logowanie wielu osób
 - bearer
+- utworzyć endpoint zwracający dane użytkowinka
 
 PostgreSQL:
 - baza danych z wiadomościami
+- polepszyć bazę danych użytkowników, więcej danych itd.
 
 
 
