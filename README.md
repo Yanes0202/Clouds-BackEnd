@@ -11,7 +11,7 @@ Front-end:
 Back-end:
 - łączenie się z bazą
 - logowanie i przypisanie stringa jako token
-- rejestrowanie
+- poprawione logowanie które sprawdza w bazie czy istnieje taki login jeśli tak error massage
 - towrzenie posta (db)
 
 II. To Do
@@ -26,7 +26,6 @@ Back-end:
 - logowanie wielu osób
 - bearer
 - utworzyć endpoint zwracający dane użytkowinka
-- poprawka do tworzenia użytkownika, brak możliwości dodania tych samych loginów
 
 PostgreSQL:
 - baza danych z wiadomościami
