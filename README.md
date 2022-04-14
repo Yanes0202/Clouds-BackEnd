@@ -26,6 +26,7 @@ Back-end:
 - logowanie wielu osób
 - bearer
 - utworzyć endpoint zwracający dane użytkowinka
+- poprawka do tworzenia użytkownika, brak możliwości dodania tych samych loginów
 
 PostgreSQL:
 - baza danych z wiadomościami
