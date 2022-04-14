@@ -1,6 +1,7 @@
 Projekt "Clouds", aplikacja przypominająca Facebooka. Aplikacja z logowaniem/rejestrowaniem konta, komunikatorem, tworzeniem postów/relacji.
 
 I. Done
+
 Front-end:
 - strona logowania/rejestrowania konta
 - główna strona z postami
