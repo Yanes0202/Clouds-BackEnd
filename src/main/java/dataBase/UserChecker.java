@@ -1,12 +1,17 @@
 package dataBase;
 
+import user.User;
+
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserChecker {
 
-    public static boolean checkUser(String login,String password){
-
+    public static boolean checkIfLoginDataMatch(String login, String password){
         try {
             ResultSet resultLogin = QueryExecutor.executeSelect("SELECT \"login\" FROM \"loginData\" WHERE \"login\"='"+login+"'");
             resultLogin.next();
@@ -18,12 +23,33 @@ public class UserChecker {
             else
                 System.out.println("COS TU SIE ZJEBAO");
                 return false;
-
         } catch (SQLException e) {
-            e.printStackTrace();
             return false;
         }
+    }
 
-
+    public static boolean checkIfLoginExist(String login){
+        try {
+            ResultSet result = QueryExecutor.executeSelect("SELECT \"login\" from \"loginData\" WHERE \"login\" = '"+login+"'");
+        if(result.next()){
+                return false;
+            }else {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+    public static List<String> getUserData(String login){
+        try {
+        ResultSet result = QueryExecutor.executeSelect("SELECT * from \"loginData\" WHERE \"login\" = '"+login+"'");
+        result.next();
+        List<String> userData = new ArrayList<>();
+        userData.add(result.getString(4));
+        userData.add(result.getString(5));
+        return userData;
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

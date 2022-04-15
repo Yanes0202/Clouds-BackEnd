@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class QueryExecutor {
@@ -31,7 +32,7 @@ public class QueryExecutor {
         }
     }
 
-    public static void insertInto(String table, List rows, List values ){
+    public static void insertInto(String dataBaseTable, ArrayList rows, ArrayList values ){
         String queryRows = "(";
         String queryValues = "(";
         for(Object value:rows){
@@ -48,7 +49,7 @@ public class QueryExecutor {
                 queryValues += "'"+vale+"',";
             }
         }
-        executeQuery("INSERT INTO \""+table+"\""+queryRows+" VALUES "+queryValues);
+        executeQuery("INSERT INTO \""+dataBaseTable+"\""+queryRows+" VALUES "+queryValues);
 
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 public class Endpoints {
     /** Tworzenie posta */
-    @PostMapping(path = "/api/createPost",consumes = {
+    @PostMapping(path = "/api/post/create",consumes = {
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE
     },
@@ -27,11 +27,11 @@ public class Endpoints {
                     MediaType.APPLICATION_JSON_VALUE
             })
     public ResponseEntity<User> createPost(@RequestBody Post post){
-        List<String > postList= new ArrayList();
+        ArrayList<String> postList= new ArrayList<>();
         postList.add(post.getTitle());
         postList.add(post.getImage());
         postList.add(post.getDescription());
-        List<String> rows = new ArrayList<>();
+        ArrayList<String> rows = new ArrayList<>();
         rows.add("title");
         rows.add("image");
         rows.add("description");
@@ -42,14 +42,14 @@ public class Endpoints {
 
     /** Usunięcie postów */
     @DeleteMapping(path = "/api/post/drop")
-    public ResponseEntity postDrop(){
+    public ResponseEntity<String> postDrop(){
         QueryExecutor.executeQuery("DELETE FROM \"postsData\"");
-        return new ResponseEntity ("{\"status\":\"Success\"}",HttpStatus.OK);
+        return new ResponseEntity<>("{\"status\":\"Success\"}",HttpStatus.OK);
     }
 
     /** Lista wszystkich postów */
     @GetMapping(path = "/api/post/get")
-    public ResponseEntity postGet(){
+    public ResponseEntity<List<Post>> postGet(){
         List<Post> postList = new ArrayList<>();
         ResultSet result = QueryExecutor.executeSelect("SELECT * from \"postsData\"");
         try {
@@ -60,7 +60,7 @@ public class Endpoints {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity(postList,HttpStatus.OK);
+        return new ResponseEntity<>(postList,HttpStatus.OK);
     }
 
     /** Logowanie */
@@ -76,12 +76,11 @@ public class Endpoints {
         JSONObject json = new JSONObject();
         json.put("status","Success");
         json.put("token","Token12345");
-        if(UserChecker.checkUser(user.getLogin(),user.getPassword())){
+        if(UserChecker.checkIfLoginDataMatch(user.getLogin(),user.getPassword())){
             return new ResponseEntity(json.toJSONString(), HttpStatus.OK);
         }else {
             return new ResponseEntity("{\"status\":\"Fail\"}",HttpStatus.NOT_FOUND);
         }
-
     }
 
     /** Rejestracja użytkownika */
@@ -97,14 +96,38 @@ public class Endpoints {
         if(user.getLogin().isEmpty()||user.getPassword().isEmpty()||user.getUserName().isEmpty()||user.getUserLastName().isEmpty()){
             return new ResponseEntity("{\"status\":\"Fail\"}",HttpStatus.EXPECTATION_FAILED);
         }else {
-            QueryExecutor.executeQuery("INSERT INTO \"loginData\"(\"login\",\"password\",\"userName\",\"userLastName\") VALUES ('" + user.getLogin() + "','" + user.getPassword() + "','" + user.getUserName() + "','" + user.getUserLastName() + "')");
-            return new ResponseEntity("{\"status\":\"Success\"}", HttpStatus.OK);
+            if(UserChecker.checkIfLoginExist(user.getLogin())){
+                ArrayList<String> userList= new ArrayList<>();
+                userList.add(user.getLogin());
+                userList.add(user.getPassword());
+                userList.add(user.getUserName());
+                userList.add(user.getUserLastName());
+                ArrayList<String> rows = new ArrayList<>();
+                rows.add("login");
+                rows.add("password");
+                rows.add("userName");
+                rows.add("userLastName");
+                QueryExecutor.insertInto("loginData",rows,userList);
+                return new ResponseEntity("{\"status\":\"Success\"}", HttpStatus.OK);
+            }else {
+                return new ResponseEntity("{\"status\":\"Nickname Exist\"}",HttpStatus.EXPECTATION_FAILED);
+            }
         }
+    }
+
+    /** Lista danych użytkownika */
+    @GetMapping(value =  "/api/user/{login}")
+    public ResponseEntity<User> getUser(@PathVariable String login){
+        List<String> userData = UserChecker.getUserData(login);
+        JSONObject json = new JSONObject();
+        json.put("userLastName",userData.get(1));
+        json.put("userName",userData.get(0));
+        return new ResponseEntity(json,HttpStatus.OK);
     }
 
     /** Lista wszystkich użytkowników */
     @GetMapping(path = "/api/user/get")
-    public ResponseEntity getAll(){
+    public ResponseEntity<List<User>> getAll(){
 
         List<User> userList = new ArrayList<>();
         ResultSet result = QueryExecutor.executeSelect("SELECT * from \"loginData\"");
@@ -115,12 +138,12 @@ public class Endpoints {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity(userList,HttpStatus.OK);
+        return new ResponseEntity<>(userList,HttpStatus.OK);
     }
 
     /** Usunięcie wszystkich użytkowników */
     @DeleteMapping(path = "/api/user/drop")
-    public ResponseEntity drop(){
+    public ResponseEntity<String> drop(){
         QueryExecutor.executeQuery("DELETE FROM \"loginData\"");
-        return new ResponseEntity ("{\"status\":\"Success\"}",HttpStatus.OK);
+        return new ResponseEntity<>("{\"status\":\"Success\"}",HttpStatus.OK);
     }}
