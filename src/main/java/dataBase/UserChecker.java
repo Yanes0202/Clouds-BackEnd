@@ -1,11 +1,7 @@
 package dataBase;
 
-import user.User;
-
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +11,7 @@ public class UserChecker {
         try {
             ResultSet resultLogin = QueryExecutor.executeSelect("SELECT \"login\" FROM \"loginData\" WHERE \"login\"='"+login+"'");
             resultLogin.next();
-            ResultSet resultPassword = QueryExecutor.executeSelect("SELECT \"password\"FROM\"loginData\"WHERE\"password\"='"+password+"'");
+            ResultSet resultPassword = QueryExecutor.executeSelect("SELECT \"password\"FROM\"loginData\"WHERE\"login\"='"+login+"'");
             resultPassword.next();
             if(resultLogin.getString(1).equals(login)&&resultPassword.getString(1).equals(password)){
                 return true;
@@ -45,8 +41,13 @@ public class UserChecker {
         ResultSet result = QueryExecutor.executeSelect("SELECT * from \"loginData\" WHERE \"login\" = '"+login+"'");
         result.next();
         List<String> userData = new ArrayList<>();
+        userData.add(result.getString(1));
+        userData.add(result.getString(2));
+        userData.add(result.getString(3));
         userData.add(result.getString(4));
         userData.add(result.getString(5));
+        userData.add(result.getString(6));
+        userData.add(result.getString(7));
         return userData;
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());

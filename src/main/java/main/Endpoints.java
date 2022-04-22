@@ -120,8 +120,13 @@ public class Endpoints {
     public ResponseEntity<User> getUser(@PathVariable String login){
         List<String> userData = UserChecker.getUserData(login);
         JSONObject json = new JSONObject();
-        json.put("userLastName",userData.get(1));
-        json.put("userName",userData.get(0));
+        json.put("id",userData.get(0));
+        json.put("login",userData.get(1));
+        json.put("password",userData.get(2));
+        json.put("userName",userData.get(3));
+        json.put("userLastName",userData.get(4));
+        json.put("phoneNumber",userData.get(5));
+        json.put("dayOfBirth",userData.get(6));
         return new ResponseEntity(json,HttpStatus.OK);
     }
 
